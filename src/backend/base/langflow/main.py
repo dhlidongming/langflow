@@ -160,6 +160,12 @@ def create_app():
     app.include_router(health_check_router)
     app.include_router(log_router)
 
+    from langflow.api.sso import Config
+    app.state.cas_client = Config().cas_client
+    # app.state.CASDOOR_SDK = Config().CASDOOR_SDK
+    # app.state.SECRET_TYPE = Config().SECRET_TYPE
+    # app.state.SECRET_KEY = Config().SECRET_KEY
+
     @app.exception_handler(Exception)
     async def exception_handler(request: Request, exc: Exception):
         if isinstance(exc, HTTPException):

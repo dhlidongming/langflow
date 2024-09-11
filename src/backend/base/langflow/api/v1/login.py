@@ -18,7 +18,7 @@ from langflow.services.variable.service import VariableService
 router = APIRouter(tags=["Login"])
 
 
-@router.post("/login", response_model=Token)
+@router.post("/login_old", response_model=Token)
 async def login_to_get_access_token(
     response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),

@@ -17,7 +17,8 @@ export function AppInitPage() {
 
   const { isFetched: isLoaded } = useCustomPrimaryLoading();
 
-  const { isFetched } = useGetAutoLogin({ enabled: isLoaded });
+  // const { isFetched } = useGetAutoLogin({ enabled: isLoaded });
+  const isFetched = true; // 如果执行useGetAutoLogin，会和sso冲突
   useGetVersionQuery({ enabled: isFetched });
   useGetConfig({ enabled: isFetched });
   useGetGlobalVariables({ enabled: isFetched });

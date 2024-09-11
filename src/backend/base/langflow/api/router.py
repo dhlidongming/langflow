@@ -16,6 +16,7 @@ from langflow.api.v1 import (
     folders_router,
     starter_projects_router,
 )
+from langflow.api.sso import (sso_router)
 
 router = APIRouter(
     prefix="/api/v1",
@@ -33,3 +34,4 @@ router.include_router(files_router)
 router.include_router(monitor_router)
 router.include_router(folders_router)
 router.include_router(starter_projects_router)
+router.include_router(sso_router)

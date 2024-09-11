@@ -72,6 +72,7 @@ export default function Header(): JSX.Element {
 
   const handleLogout = () => {
     mutationLogout();
+    // window.location.replace("http://172.21.80.24/logout/"); //  TODO 先暂不实现sso logout功能，先隐藏logout按钮
   };
 
   return (
@@ -282,18 +283,18 @@ export default function Header(): JSX.Element {
                   />
                   Discussions
                 </DropdownMenuItem>
-                {!autoLogin && (
-                  <>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      className="cursor-pointer gap-2"
-                      onClick={handleLogout}
-                    >
-                      <ForwardedIconComponent name="LogOut" className="w-4" />
-                      Log Out
-                    </DropdownMenuItem>
-                  </>
-                )}
+                {/*{!autoLogin && (*/}
+                {/*  <>*/}
+                {/*    <DropdownMenuSeparator />*/}
+                {/*    <DropdownMenuItem*/}
+                {/*      className="cursor-pointer gap-2"*/}
+                {/*      onClick={handleLogout}*/}
+                {/*    >*/}
+                {/*      <ForwardedIconComponent name="LogOut" className="w-4" />*/}
+                {/*      Log Out*/}
+                {/*    </DropdownMenuItem>*/}
+                {/*  </>*/}
+                {/*)}*/}
               </DropdownMenuContent>
             </DropdownMenu>
           </>

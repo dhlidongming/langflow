@@ -19,6 +19,7 @@ import { AppInitPage } from "./pages/AppInitPage";
 import { AppWrapperPage } from "./pages/AppWrapperPage";
 import { DashboardWrapperPage } from "./pages/DashboardWrapperPage";
 import FlowPage from "./pages/FlowPage";
+import {SSOLogin, SSOCallback} from "./pages/SSOLoginPage";
 import LoginPage from "./pages/LoginPage";
 import MyCollectionComponent from "./pages/MainPage/components/myCollectionComponent";
 import HomePage from "./pages/MainPage/pages/mainPage";
@@ -169,11 +170,17 @@ const router = createBrowserRouter(
           <Route
             path="login"
             element={
-              <ProtectedLoginRoute>
-                <LoginPage />
-              </ProtectedLoginRoute>
+              // <ProtectedLoginRoute>
+                <SSOLogin />
+              // </ProtectedLoginRoute>
             }
           />
+            <Route
+                path="callback"
+                element={
+                    <SSOCallback/>
+                }
+            />
           <Route
             path="signup"
             element={
