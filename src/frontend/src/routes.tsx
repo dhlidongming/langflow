@@ -20,7 +20,6 @@ import { AppWrapperPage } from "./pages/AppWrapperPage";
 import { DashboardWrapperPage } from "./pages/DashboardWrapperPage";
 import FlowPage from "./pages/FlowPage";
 import {SSOLogin, SSOCallback} from "./pages/SSOLoginPage";
-import LoginPage from "./pages/LoginPage";
 import MyCollectionComponent from "./pages/MainPage/components/myCollectionComponent";
 import HomePage from "./pages/MainPage/pages/mainPage";
 import SettingsPage from "./pages/SettingsPage";

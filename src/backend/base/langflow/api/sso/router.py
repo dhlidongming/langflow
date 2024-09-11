@@ -28,7 +28,6 @@ from langflow.services.settings.service import SettingsService
 from langflow.services.variable.service import VariableService
 
 router = APIRouter(tags=["SSO"])
-# templates = Jinja2Templates(directory="templates")  # 请确保已经创建了“templates”文件夹并包含“index.html”
 
 async def get_user_from_session(request: Request):
     user = request.session.get("casdoorUser")
@@ -67,73 +66,8 @@ def get_user_from_db(username: str, password: str, db: Session = Depends(get_ses
     return user
 
 
-@router.post("/signin", response_class=JSONResponse)
-async def post_signin(response: Response, request: Request,
-                      db: Session = Depends(get_session),
-                      settings_service=Depends(get_settings_service),
-                      variable_service: VariableService = Depends(get_variable_service)):
-    code = request.query_params.get("code")
-    state = request.query_params.get("state")
-
-    sdk = request.app.state.CASDOOR_SDK
-    token = sdk.get_oauth_token(code)
-    user = sdk.parse_jwt_token(token['access_token'])
-    # request.session["casdoorUser"] = user
-
-    try:
-        user = get_user_from_db(user['name'], user['id'], db)
-    except Exception as exc:
-        if isinstance(exc, HTTPException):
-            raise exc
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=str(exc),
-        ) from exc
-
-    if user:
-        auth_settings = settings_service.auth_settings
-        tokens = create_user_tokens(user_id=user.id, db=db, update_last_login=True)
-        response.set_cookie(
-            "refresh_token_lf",
-            tokens["refresh_token"],
-            httponly=auth_settings.REFRESH_HTTPONLY,
-            samesite=auth_settings.REFRESH_SAME_SITE,
-            secure=auth_settings.REFRESH_SECURE,
-            expires=auth_settings.REFRESH_TOKEN_EXPIRE_SECONDS,
-            domain=auth_settings.COOKIE_DOMAIN,
-        )
-        response.set_cookie(
-            "access_token_lf",
-            tokens["access_token"],
-            httponly=auth_settings.ACCESS_HTTPONLY,
-            samesite=auth_settings.ACCESS_SAME_SITE,
-            secure=auth_settings.ACCESS_SECURE,
-            expires=auth_settings.ACCESS_TOKEN_EXPIRE_SECONDS,
-            domain=auth_settings.COOKIE_DOMAIN,
-        )
-        response.set_cookie(
-            "apikey_tkn_lflw",
-            str(user.store_api_key),
-            httponly=auth_settings.ACCESS_HTTPONLY,
-            samesite=auth_settings.ACCESS_SAME_SITE,
-            secure=auth_settings.ACCESS_SECURE,
-            expires=None,  # Set to None to make it a session cookie
-            domain=auth_settings.COOKIE_DOMAIN,
-        )
-        variable_service.initialize_user_variables(user.id, db)
-        # Create default folder for user if it doesn't exist
-        create_default_folder_if_it_doesnt_exist(db, user.id)
-        return {"status": "ok", "data": tokens}
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-
 @router.post("/login", response_class=JSONResponse)
-async def post_signin_cas(response: Response, request: Request,
+async def post_signin(response: Response, request: Request,
                       db: Session = Depends(get_session),
                       settings_service=Depends(get_settings_service),
                       variable_service: VariableService = Depends(get_variable_service)):

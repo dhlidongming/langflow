@@ -72,7 +72,6 @@ export default function Header(): JSX.Element {
 
   const handleLogout = () => {
     mutationLogout();
-    // window.location.replace("http://172.21.80.24/logout/"); //  TODO 先暂不实现sso logout功能，先隐藏logout按钮
   };
 
   return (
