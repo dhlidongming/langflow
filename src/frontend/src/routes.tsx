@@ -169,13 +169,13 @@ const router = createBrowserRouter(
           <Route
             path="login"
             element={
-              // <ProtectedLoginRoute>
+              <ProtectedLoginRoute>
                 <SSOLogin />
-              // </ProtectedLoginRoute>
+              </ProtectedLoginRoute>
             }
           />
             <Route
-                path="callback"
+                path="sso_callback"
                 element={
                     <SSOCallback/>
                 }

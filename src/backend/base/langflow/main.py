@@ -160,9 +160,6 @@ def create_app():
     app.include_router(health_check_router)
     app.include_router(log_router)
 
-    from langflow.api.sso import cas_client
-    app.state.cas_client = cas_client
-
     @app.exception_handler(Exception)
     async def exception_handler(request: Request, exc: Exception):
         if isinstance(exc, HTTPException):

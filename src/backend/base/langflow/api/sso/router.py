@@ -72,8 +72,16 @@ async def post_signin(response: Response, request: Request,
                       settings_service=Depends(get_settings_service),
                       variable_service: VariableService = Depends(get_variable_service)):
     ticket = request.query_params.get("ticket")
+    service_url = request.query_params.get("service_url")
 
-    cas_client = request.app.state.cas_client
+    cas_client = CASClient(
+        version=3,
+        service_url=service_url,
+        # server_url='https://sso.eos.dhgate.com/cas',
+        # server_url='http://127.0.0.1:8000/cas/dhgate/application_python_example',
+        server_url='http://172.21.80.24/cas',
+    )
+
     user, attributes, pgtiou = cas_client.verify_ticket(ticket)
     if not user:
         return HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
