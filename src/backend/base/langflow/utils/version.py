@@ -50,7 +50,8 @@ def _get_version_info():
         raise ValueError(f"Package not found from options {package_options}")
 
 
-VERSION_INFO = _get_version_info()
+# VERSION_INFO = _get_version_info()
+VERSION_INFO = {'version': '1.0.17', 'main_version': '1.0.17', 'package': 'Langflow'}
 
 
 def is_pre_release(v: str) -> bool:
